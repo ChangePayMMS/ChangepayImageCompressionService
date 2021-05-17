@@ -7,13 +7,13 @@ import 'package:path/path.dart';
 import 'package:flutter/foundation.dart';
 
 class EsamudaayImageCompressionService {
-  static Future<File> getCompressedImage(
+  static Future<File?> getCompressedImage(
     ImageSource imageSource, {
-    String targetPath,
+    String? targetPath,
     int targetSizeInBytes = 50000,
   }) async {
     try {
-      final PickedFile imageFile =
+      final PickedFile? imageFile =
           await ImagePicker().getImage(source: imageSource);
 
       // If no image was selected then return null;
@@ -33,12 +33,14 @@ class EsamudaayImageCompressionService {
           "size => $size , desiredSize => $targetSizeInBytes , getQualityRatio => $qualityRatio , ${file.absolute.path}");
 
       // if target path is not given, get temp path.
-      final Directory dir = targetPath ?? await getTemporaryDirectory();
+      final Directory dir = targetPath != null
+          ? Directory(targetPath)
+          : await getTemporaryDirectory();
       // get file name to create unique path for updated file.
       final String fileName = basename(file.path);
 
       // update file with calculated parameters.
-      final File updatedFile = await FlutterImageCompress.compressAndGetFile(
+      final File? updatedFile = await FlutterImageCompress.compressAndGetFile(
         file.absolute.path,
         dir.path + "/$fileName.jpeg",
         quality: qualityRatio,
@@ -46,7 +48,7 @@ class EsamudaayImageCompressionService {
       );
 
       // check new file size if debug mode.
-      if (kDebugMode) {
+      if (kDebugMode && updatedFile != null) {
         updatedFile.length().then((newSize) {
           debugPrint("updated size => $newSize");
         });
