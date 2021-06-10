@@ -10,7 +10,11 @@ class EsamudaayImageCompressionService {
   static Future<File?> getCompressedImage(
     ImageSource imageSource, {
     String? targetPath,
-    int targetSizeInBytes = 50000,
+    int targetSizeInBytes = 150000,
+    // 720p and quality 90 is the combination to get file size around 150KB.
+    int minHeight = 720,
+    int minWidth = 720,
+    int quality = 90,
   }) async {
     try {
       final PickedFile? imageFile =
@@ -26,12 +30,6 @@ class EsamudaayImageCompressionService {
       // if original file size is already less than targetSize then return file.
       if (size <= targetSizeInBytes) return file;
 
-      // calculate quality ratio to get target file size.
-      final int qualityRatio = ((targetSizeInBytes / size) * 100).ceil();
-
-      debugPrint(
-          "size => $size , desiredSize => $targetSizeInBytes , getQualityRatio => $qualityRatio , ${file.absolute.path}");
-
       // if target path is not given, get temp path.
       final Directory dir = targetPath != null
           ? Directory(targetPath)
@@ -43,7 +41,9 @@ class EsamudaayImageCompressionService {
       final File? updatedFile = await FlutterImageCompress.compressAndGetFile(
         file.absolute.path,
         dir.path + "/$fileName.jpeg",
-        quality: qualityRatio,
+        quality: quality,
+        minHeight: minHeight,
+        minWidth: minWidth,
         rotate: 0,
       );
 
