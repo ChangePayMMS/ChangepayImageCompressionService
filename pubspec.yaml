@@ -1,6 +1,6 @@
 name: esamudaay_image_services
 description: A new Flutter package project.
-version: 0.0.3
+version: 0.0.4
 author:
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  image_picker: ^0.7.4
+  image_picker: ^0.8.6+4
   path_provider: ^2.0.1
   flutter_image_compress: ^1.0.0
 

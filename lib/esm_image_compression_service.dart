@@ -1,10 +1,11 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class EsamudaayImageCompressionService {
   static Future<File?> getCompressedImage(
@@ -17,8 +18,8 @@ class EsamudaayImageCompressionService {
     int quality = 90,
   }) async {
     try {
-      final PickedFile? imageFile =
-          await ImagePicker().getImage(source: imageSource);
+      final XFile? imageFile =
+          await ImagePicker().pickImage(source: imageSource);
 
       // If no image was selected then return null;
       if (imageFile == null) return null;
