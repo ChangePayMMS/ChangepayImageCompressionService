@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
@@ -39,7 +38,7 @@ class EsamudaayImageCompressionService {
       final String fileName = basename(file.path);
 
       // update file with calculated parameters.
-      final File? updatedFile = await FlutterImageCompress.compressAndGetFile(
+      final updatedFile = await FlutterImageCompress.compressAndGetFile(
         file.absolute.path,
         dir.path + "/$fileName.jpeg",
         quality: quality,
@@ -55,7 +54,7 @@ class EsamudaayImageCompressionService {
         });
       }
       // return compressed file.
-      return updatedFile;
+      return File(updatedFile?.path ?? '');
     } catch (e) {
       debugPrint("caught error => $e");
       return null;
